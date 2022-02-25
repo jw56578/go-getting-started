@@ -237,7 +237,7 @@ func handleFileUploaded(cId int, pullId int){
   //recipientState[recipientId] = "waitingforinsurance"
   var token = getToken()
   // send a message that has the link to view the file
-  createMessage(token,cId,"Link to file.  https://botdocpoc.jw56578.repl.co/media?id=" + strconv.Itoa(pullId))
+  createMessage(token,cId,"Link to file.  https://botdocpoc.herokuapp.com//media?id=" + strconv.Itoa(pullId))
 
 
   
@@ -296,73 +296,13 @@ func runWorkflow(email string) {
   sendNotification(token,cId)
 }
 
-// this does not cause any email to be sent, even though interface_class is set to email
-func createRequest(token string){
 
-   var jsonData = []byte(`{
-      "message": "Hello",
-      "requester_privatenotes": "",
-      "type": "push",
-      "is_draft": true,
-      "long_message_subject": "DL required",
-      "short_message": "Please upload DL",
-      "callback_url": "https://myfirstwebserver.jw56578.repl.co",
-      "long_message": "<p>Hi John,</p><p><br></p><p>Please upload DL.</p>",
-      "contact": [
-          {
-              "first_name": "Sheni",
-              "last_name": "Singhal",
-              "contactmethod": [
-                  {
-                      "interface_class": "email",
-                      "value": "jw56578@gmail.com"
-                  }
-              ]
-          }
-      ]
-  }`)
-	request, err := http.NewRequest("POST", "https://sandboxapi.botdoc.io/v1/request/" , bytes.NewBuffer(jsonData))
-	request.Header.Set("Content-Type", "application/json; charset=UTF-8")
-  request.Header.Set("Authorization", "JWT " + token)
-  if err != nil {
-    log.Fatalf("An Error Occured %v", err)
-  }
-
-  client := &http.Client{}
-	resp, err := client.Do(request)
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	defer resp.Body.Close()
-
-	b, err := ioutil.ReadAll(resp.Body)
-	// b, err := ioutil.ReadAll(resp.Body)  Go.1.15 and earlier
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-  fmt.Printf("The response of creating a request is: %s", b)
-
-
-
-/*
-  defer request.Body.Close()
-  //Read the response body
-  body, err := ioutil.ReadAll(request.Body)
-  if err != nil {
-    log.Fatalln(err)
-  }
-  sb := string(body)
-  fmt.Printf("The response of creating a request is: %s", sb)
-    */
-}
 
 // what is create request VS this other workflow?????
 func createContainer(token string) int{
 
    var jsonData = []byte(`{
-    "callback_url": "https://BotDocPOC.jw56578.repl.co/callback",
+    "callback_url": "https://botdocpoc.herokuapp.com/callback",
     "page_type": "p2",
     "display_chat": true
   }`)
