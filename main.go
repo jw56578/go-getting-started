@@ -9,6 +9,7 @@ import (
   "encoding/json"
   "strconv"
    "net/mail"
+  "os"
   //"time"
 )
 
@@ -72,9 +73,10 @@ func main() {
 
     mux.HandleFunc("/", HelloHandler)
     //mux.HandleFunc("/email", EmailHandler) <--- this doesn't work, does it need to be in order?
-
+    port := os.Getenv("PORT")
     fmt.Println("Server started at port 8080")
-    log.Fatal(http.ListenAndServe(":8080", mux))
+    log.Fatal(http.ListenAndServe(":" + port, mux))
+		
 }
 func EmailHandler(w http.ResponseWriter, r *http.Request) {
     keys, ok := r.URL.Query()["email"]
